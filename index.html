@@ -1,0 +1,788 @@
+<!DOCTYPE html> 
+<html>
+<head>
+<meta charset="utf-8">
+<title>瓯网拍客</title>
+<metahttp-equiv="pragma"content="no-cache"> 
+<metahttp-equiv="cache-control"content="no-cache,must-revalidate"> 
+<metahttp-equiv="expires"content="0"> 
+<script type='text/javascript' charset='utf-8' src='phonegap.js'></script>
+<link href="jquery-mobile/jquery.mobile-1.3.0.min.css" rel="stylesheet" type="text/css"/>
+<script src="jquery-mobile/jquery-1.8.2.min.js" type="text/javascript"></script>
+<script src="jquery-mobile/jquery-jtemplates.js" type="text/javascript"></script>
+<script src="jquery-mobile/jquery.mobile-1.3.0.min.js" type="text/javascript"></script>
+
+<style>
+.listpic li a img
+{
+	height:100%;
+}
+
+.ui-dialog-contain {
+width: 92.5%;
+max-width: 500px;
+margin: 10% auto 15px auto;
+padding: 0;
+position: relative;
+top: -15px;
+}
+
+.nav-glyphish-example .ui-btn .ui-btn-inner { padding-top: 40px !important; }
+.nav-glyphish-example .ui-btn .ui-icon { width: 32px!important; height: 32px!important; margin-left: -15px !important; box-shadow: none!important; -moz-box-shadow: none!important; -webkit-box-shadow: none!important; -webkit-border-radius: none !important; border-radius: none !important; }
+  .ico-camera .ui-icon { background:  url(images/camera_1.png) 50% 50% no-repeat; background-size: 32px 32px; }
+  .ico-login .ui-icon { background:  url(images/user_1.png) 50% 50% no-repeat;  background-size: 32px 32px; }
+.ico-pic .ui-icon { background:  url(images/pic_1.png) 50% 50% no-repeat;  background-size: 32px 32px; }
+.ico-exit .ui-icon { background:  url(images/exit_1.png) 50% 50% no-repeat;  background-size: 32px 32px; }
+.ico-logout .ui-icon { background:  url(images/logout_1.png) 50% 50% no-repeat;  background-size: 32px 32px; }
+}
+
+#SocialLinks { padding: 10px 0 0 0; }
+#SocialLinks:after { clear: both; content: "."; display: block; height: 0; visibility: hidden; }
+#SocialLinks a { display: block; float: left; padding-right: 15px; }
+
+.gallery { list-style: none; padding: 0; margin: 0; }
+.gallery:after { clear: both; content: "."; display: block; height: 0; visibility: hidden; }
+.gallery li { float: left; width: 25%; }
+.gallery li a { display: block; margin: 2px; border: 1px solid #3c3c3c; }
+.gallery li img { display: block; width: 100%; height: auto; }
+
+#showpic img {width:100%}
+</style>
+</head> 
+<body > 
+<div data-role="page" id="page" data-theme="c" data-add-back-btn="true" data-dom-cache="true">
+	<div data-position="fixed" data-role="header" >
+		<h1>瓯网快拍</h1>
+		<a id="refbnt" data-role="button" data-icon="refresh">刷 新</a>
+	</div>
+<div data-role="content">  
+<div>
+<div id="piclistdiv">
+
+</div>
+</div>
+<a data-role="button" data-theme="e" id="listmore" style="display:none">查看更多</a>
+</div>
+
+
+<div data-role="footer" data-position="fixed"  data-id="footernav" class="nav-glyphish-example">   
+<div data-role="navbar" data-iconpos="top" class="nav-glyphish-example" >
+<ul>
+<li><a class="ui-btn-active ico-pic" data-icon="delete" >图 片</a></li>
+<li><a class="ico-camera" data-icon="custom" href="#page3">分 享</a></li>
+<li>
+<a href="#page2" class="ico-login" data-icon="custom" data-role="button">登 录</a>
+<a class="ico-logout" data-icon="custom" data-role="button" style="display:none">注 消</a>
+</li>
+<li><a data-icon="custom" class="ico-exit">退 出</a></li>
+</ul>
+</div>
+<!-- /navbar -->
+</div>
+</div>
+
+<div data-role="page" id="page2" data-backbtn="true">
+	<div data-position="fixed" data-role="header"  data-add-back-btn="true">    
+		<h1>用户登录</h1>
+      <a  data-icon="Star" data-theme="b" id="registerbnt">注册新用户</a>
+	</div>
+	<div data-role="content">	
+		<div data-role="fieldcontain">
+                <fieldset data-role="controlgroup" data-mini="true">
+                    <label for="textinput1">
+                        用户名：
+                    </label>
+                    <input name="" id="txtusername" placeholder="请输入瓯网的用户名" value="" type="text">
+                </fieldset>
+            </div>
+            <div data-role="fieldcontain">
+                <fieldset data-role="controlgroup" data-mini="true">
+                    <label for="textinput2">
+                        密&nbsp;&nbsp;&nbsp;&nbsp;码：
+                    </label>
+                    <input name="" id="txtpassword" placeholder="请输入密码" value="" type="password">
+                </fieldset>
+            </div>
+            <input type="submit" value="登  录" id="loginbnt">
+        </form>	</div>
+<div data-role="footer" data-position="fixed"  data-id="footernav">   
+<div data-role="navbar" data-iconpos="top" class="nav-glyphish-example" >
+<ul>
+<li><a class="ico-pic" data-icon="delete" href="#page" >图 片</a></li>
+<li><a class="ico-camera" data-icon="custom" href="#page3">分 享</a></li>
+<li>
+<a href="#page2" class="ui-btn-active  ico-login" data-icon="custom" data-role="button">登 录</a>
+<a class="ico-logout" data-icon="custom" data-role="button" style="display:none">注 消</a>
+</li>
+<li><a  data-icon="custom" class="ico-exit">退 出</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div data-role="page" id="page3">
+	<div data-role="header">
+    <a href="index.html" data-icon="delete" data-rel="back">取 消</a>
+		<h1>分享图片</h1>
+    <a  data-icon="check" data-theme="b" id="sendbnt" >发 送</a>
+	</div>
+	<div data-role="content">			
+         
+         <div data-inline="true">       
+          <div data-role="fieldcontain">
+   <textarea id="txtsummary" placeholder="给图片加点说明吧"></textarea>      
+   </div>
+   <div data-role="fieldcontain">
+
+            <label for="slider1">
+                图片质量
+            </label>
+            <input id="slider1" type="range" name="slider" value="50" min="1" max="100"
+            data-highlight="false">
+        </div>
+   <div data-role="fieldcontain">  
+　 <a  data-role="button" data-inline="true" id="camerabnt">拍 摄</a>
+　 <a data-role="button" data-inline="true" id="photobnt">相 册</a>
+</div>
+ 
+
+ <div data-role="fieldcontain" style="border:none;">
+            <select name="toggleswitch2" id="publicstate" data-theme="" data-role="slider"
+            data-mini="true">
+                <option value="2">
+                    私密
+                </option>
+                <option value="1" selected>
+                    公开
+                </option>
+            </select>
+        </div>
+ 
+        <div id="demoimgdiv" style="display:none; border:none;" data-role="fieldcontain">
+        <img style="width:100px;height:100px" src=""  id="demoimg" />
+        </div>
+
+       <input type="hidden" id="txtLatitude"/>
+       <input type="hidden" id="txtLongitude"/>
+       <input type="hidden" id="txtpic"/>           
+        </div>	
+        
+          
+<a  data-icon="info" data-theme="e" id="waitbnt" data-role="button" style="display:none;"  data-rel="popup">后台传送</a>
+
+	</div>
+
+</div>
+<div data-role="page" id="page4" data-add-back-btn="true">
+<div data-position="fixed" data-role="header"  data-backbtn="true">
+		<h1>瓯网快拍</h1>
+	</div>
+  <div data-role="content">
+  <div id="showpic">
+  
+  </div>
+  </div>
+
+</div>
+
+
+
+
+<textarea id="piclist" style="display:none">
+<ul id="Gallery" class="gallery">
+{#foreach $T as record}  
+<li>
+<a class="showpicbnt" rel="{$T.record.id}"><img src="{$T.record.smallpic}"/></a>
+</li>
+{#/for} 
+</ul>
+</textarea>
+<textarea id="picshow" style="display:none">
+{#foreach $T as record}  
+    
+            <div style="width: 100%;  position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;">
+<img src="{$T.record.middlepic}" style="width:100%">
+            </div>
+      
+        <h4>
+        {$T.record.summary}
+        </h4>
+        <h5>
+           作者：{$T.record.username}
+        </h5>
+        <h5>
+           上传时间：{$T.record.addtime}
+        </h5>
+{#/for} 
+
+</textarea>
+<script language="javascript">
+var sendwait=0;
+var pageindex=1;
+var maxpage=1;
+var docount=0;
+var photoquality=50;
+var loginurl='http://kp.wzrb.com.cn/ashx/mobile_api.ashx?type=1&callback=?';
+var uploadurl='http://kp.wzrb.com.cn/ashx/mobile_api.ashx?type=2&callback=?';
+var piclisturl="http://kp.wzrb.com.cn/ashx/mobile_api.ashx?type=3&callback=?";
+var checkurl="http://kp.wzrb.com.cn/ashx/mobile_api.ashx?type=4&callback=?";
+var showurl="http://kp.wzrb.com.cn/ashx/mobile_api.ashx?type=5&callback=?";
+var updateurl="http://kp.wzrb.com.cn/ashx/mobile_api.ashx?type=6&callback=?";
+var dowlurl="http://kp.wzrb.com.cn/wap_down.html";
+var wapregister="http://bbs.wzrb.com.cn/member.php?mod=register.php&mobile=yes";
+var doed=0;
+
+$("#photobnt").live('tap',function(event) {
+	getPhoto();
+	} );
+	
+	$("#loginbnt").live('tap',function(event) {
+	UserLogin();
+	} );
+	
+	$("#sendbnt").live('tap',function(event) {
+	uploadPhoto();
+	} );
+	
+	jQuery('.ico-logout').live('tap',function(event){
+	logout();
+	});
+	
+	jQuery('.ico-exit').live('tap',function(event){
+		navigator.app.exitApp();
+	});
+	
+	jQuery('#listmore').live('tap',function(event)
+	{
+		pageindex++;		
+		initlist(0,0);
+	});
+	
+	$("#camerabnt").live('tap',function(event) {		
+	CapturePhoto();
+	} );
+	
+	$("#refbnt").live('tap',function(event) {	
+	pageindex=1;	
+	jQuery('#piclistdiv').html('');
+	initlist(0,0);
+	} );
+	
+	$("#waitbnt").live('tap',function(event) {
+	
+	
+		 sendwait=0;
+		 sina.notification.cancel(1);
+		 jQuery('#waitbnt').hide('fast',function(){jQuery('#sendbnt').show()});
+		 jQuery('#demoimgdiv').hide();
+		 jQuery('#txtsummary').val('');
+		 jQuery('#txtpic').val('');
+		 $.mobile.hidePageLoadingMsg();
+		$.mobile.changePage("#page", "slideup");
+	} );
+	
+	$("#registerbnt").live('tap',function(event) {
+	window.open(wapregister);
+	} );
+	
+//拍照 
+    function CapturePhoto() {		
+		if(!CheckLogin())
+		{
+			$.mobile.changePage("#page2", "slideup");
+			return;
+		}
+		var _w=0;
+		
+		photoquality=parseInt(jQuery('#slider1').val());
+		
+		
+		if(photoquality<31)
+		{
+			_w=500;
+		}
+		
+		if(photoquality<21)
+		{
+			_w=400;
+		}
+		
+		if(photoquality<11)
+		{
+			_w=300;
+		}
+		
+		navigator.camera.getPicture(photosuccess, photoonFail, { 
+		quality:50,	
+		allowEdit : true,
+		targetWidth : _w,
+		targetHeight : _w,	
+		destinationType: navigator.camera.DestinationType.FILE_URI
+		});
+		
+    }
+   
+    function photosuccess(imageURI) {
+        //alert(imageURI);
+		//uploadPhoto(imageURI);
+		jQuery('#demoimg').attr("src", imageURI);
+		jQuery('#txtpic').val(imageURI);	
+		jQuery('#demoimgdiv').show();
+		doed=0;
+   }
+   
+    
+	//从文件中选取
+    function getPhoto() {
+		if(!CheckLogin())
+		{
+			$.mobile.changePage("#page2", "slideup");
+			return;
+		}
+		var _w=0;
+		
+		photoquality=parseInt(jQuery('#slider1').val());
+		if(photoquality<31)
+		{
+			_w=500;
+		}
+		
+		if(photoquality<21)
+		{
+			_w=400;
+		}
+		
+		if(photoquality<11)
+		{
+			_w=300;
+		}
+        navigator.camera.getPicture(photosuccess, photoonFail, {
+			quality:50,           
+			destinationType: navigator.camera.DestinationType.FILE_URI,
+			allowEdit : true,
+			targetWidth : _w,
+			targetHeight : _w,	
+         	sourceType : Camera.PictureSourceType.PHOTOLIBRARY
+        });
+    }
+
+	var destinationType; 
+	var pictureSource; 
+	document.addEventListener("deviceready",onDeviceReady,false); 
+    function onDeviceReady(){
+		
+        pictureSource = navigator.camera.PictureSourceType;
+        destinationType = navigator.camera.DestinationType;	
+		document.addEventListener("backbutton",back_click,false);	
+		checkConnection();
+		CheckUpdate();
+    }
+	
+	function back_click()
+	{
+		 if($.mobile.activePage.is('#page')){
+			 if(confirm('您确定退出吗？'))
+			 {
+                navigator.app.exitApp();
+			 }
+            }
+            else {
+                navigator.app.backHistory();
+            }
+	}
+jQuery(function(){
+
+
+}) 
+	
+	
+$(document).bind('pageinit',function() {
+	initlist(0,0);	
+	InitUser();
+	});
+
+function InitUser()
+{
+	if(CheckLogin())
+	{
+		jQuery('.ico-login').hide("fast",function(){jQuery('.ico-logout').show()});		
+	}
+}
+
+function photoonFail(message) {
+		
+	doed=0;
+	} 
+
+
+function locaaction(){
+ navigator.geolocation.getCurrentPosition(locaonSuccess, locaonError, { maximumAge: 3000, timeout: 50000, enableHighAccuracy: true });
+ 
+}
+ function locaonSuccess(position) {	 
+	 jQuery('#txtLatitude').val(position.coords.latitude);
+	 jQuery('#txtLongitude').val(position.coords.longitude);
+    }
+	
+ function locaonError(error) {
+		var str='';
+		switch(error.code)
+		{
+			case 2:
+				str='GPS功能尚未启动，不能实现定位';
+				break;	
+			case 3:
+				str='GPS定位超时';
+		}        
+    }
+	
+function UserLogin()
+{
+	
+	var username= jQuery('#txtusername').val();
+	var password=jQuery('#txtpassword').val();
+	if(username.length==0)
+	{
+		alert('用户名不能为空');	
+		return false;
+	}
+	
+	if(password.length==0)
+	{
+		alert('请输入密码');	
+		return false;
+	}
+username=escape(username);	
+initLoding('正在处理....');
+jQuery.getJSON(loginurl,
+{
+	username:username,
+    password:password,    
+},
+  function(data) {
+   //var loginjson="{\"uid\":"+data.uid+",\"hashcode\":\""+data.hashcode+"\"}";
+   var uid=parseInt(data.uid); 
+
+   if(uid>0)
+   {
+	   window.localStorage.setItem("uid",uid);
+	   window.localStorage.setItem("hashcode",data.hashcode);	
+	   InitUser();
+       $.mobile.changePage("#page", "slideup");
+   }
+    $.mobile.hidePageLoadingMsg();
+});
+  return false;
+}
+
+function CheckLogin()
+{
+	var uid = window.localStorage? localStorage.getItem("uid"):0;	
+	var hashcode = window.localStorage? localStorage.getItem("hashcode"):"";	
+	if(parseInt(uid)>0)
+	{
+		
+		if(hashcode.length>5)
+		{			
+			return true;			
+		}
+	}
+	return false;	
+}
+
+function initLoding(str)
+{
+	jQuery.mobile.loading( 'show', {
+	text: str,
+	textVisible: true,
+	theme: 'z',
+	html: ""
+	});	
+}
+
+
+function uploadPhoto(){  
+if(!CheckLogin())
+{
+	$.mobile.changePage("#page2", "slideup");
+	return;
+}
+
+var imageURI=jQuery('#txtpic').val();
+if(imageURI.length<2)
+{
+	alert('请选择图片');
+	return;	
+}
+
+var summary=jQuery('#txtsummary').val();
+if(summary.length<0)
+{
+	alert('给图片加点说明吧');
+	return;	
+}
+initLoding('正在上传，请销候....');
+sendwait=1;
+jQuery('#sendbnt').hide('fast',function(){jQuery('#waitbnt').show()});
+
+var options = new FileUploadOptions();
+options.fileKey="mypic";
+options.fileName=imageURI.substr(imageURI.lastIndexOf('/')+1);
+options.mimeType="image/jpeg";
+//options.chunkedMode = false;  
+var params = new Object();
+params.latitude = jQuery('#latitude').val();
+params.longitude= jQuery('#longitude').val();
+params.uid=window.localStorage.getItem("uid");
+params.hashcode=window.localStorage.getItem("hashcode");
+params.summary=summary;
+params.publicstate=jQuery('#publicstate').val();
+options.params = params;
+var ft=new FileTransfer();  
+ft.upload(imageURI,uploadurl,win,fail,options);  
+//showTopInfo(1);
+//获取上传进度
+//ft.onprogress =uploadProcessing;
+//$.mobile.changePage("#page", "slideup");
+}  
+
+function win(r) {
+	
+	       var json=eval(r.response);
+		   var err=parseInt(json.error);
+       	 if(err==0)
+		 {
+		   
+		   jQuery('#demoimgdiv').hide();
+		   jQuery('#txtsummary').val('');
+		   jQuery('#txtpic').val('');
+		   jQuery('#showpic').html('');
+		   pageindex=1;
+		   initlist(0,0);
+		   $.mobile.changePage("#page", "slideup"); 
+		 
+		  
+		 }
+		 else
+		 {
+			switch(err)
+			{
+				case 1:
+					alert('网速太慢，图片上传失败，请尝试调整更小的图片质量!');
+					break;
+					
+				case 2:
+					alert('用户验证错误，图片上传失败!');
+					break;
+					
+				case 3:
+					alert('上传图片过于频繁，图片上传失败!');
+					break;	
+						
+			}
+		 }
+		   sendwait=0;
+		    jQuery('#waitbnt').hide('fast',function(){jQuery('#sendbnt').show()});
+		 $.mobile.hidePageLoadingMsg();
+		   //sina.notification.cancel(1);
+}
+
+function fail(error) {
+	     jQuery('#demoimgdiv').hide();
+		 jQuery('#txtsummary').val('');
+		 jQuery('#txtpic').val('');
+         $.mobile.hidePageLoadingMsg();		
+		 //alert('上传发生错误，请重试');	
+		 sendwait=0;
+		   
+		 jQuery('#waitbnt').hide('fast',function(){jQuery('#sendbnt').show()});
+		 //sina.notification.cancel(1);
+}
+
+
+
+function initlist(uid,cid)
+{
+	
+	if(pageindex>1)
+	{
+		if(pageindex>maxpage)
+			pageindex=maxpage;	
+	}
+	
+	
+	initLoding('');
+	jQuery.getJSON(piclisturl,
+{
+	pageindex:pageindex,
+	uid:uid,
+	hashcode:'',
+	cid:cid,
+	
+},
+function(json)
+{	
+	 maxpage=json.maxpage;
+	 docount=json.docount;
+
+	 $('<div>').appendTo('#piclistdiv');
+	var obj=$('#piclistdiv div').eq(pageindex-1);	
+	 obj.setTemplateElement("piclist");  
+	 obj.processTemplate(json.list);  
+	 if(pageindex<maxpage)
+	 {
+		jQuery('#listmore').show(); 
+	 }
+	 else
+	 {
+		jQuery('#listmore').hide(); 
+	 }
+	    jQuery('.showpicbnt').die('tap');
+		jQuery('.showpicbnt').live('tap',function(event)
+		{
+			showclick($(this));
+		});
+		
+	 $.mobile.hidePageLoadingMsg();
+	
+	});
+
+}
+
+function logout()
+{
+	if(confirm('您确定要注销吗？'))
+	{
+		window.localStorage.setItem("uid","0");
+		window.localStorage.setItem("hashcode","");
+		jQuery('.ico-logout').hide("fast",function(){jQuery('.ico-login').show()});
+	}
+}
+
+
+function showclick(that)
+{	
+initLoding('');
+var id=parseInt(that.attr('rel'));
+jQuery.getJSON(showurl,
+{
+	pid:id   
+},
+  function(json) {
+	  $('#showpic').setTemplateElement("picshow");  
+	  $('#showpic').processTemplate(json);  
+	  $.mobile.changePage("#page4", "slideup");
+	  $.mobile.hidePageLoadingMsg();
+  	}
+  );
+}
+
+var ver=1;
+function CheckUpdate()
+{
+	jQuery.getJSON(updateurl,function(data)
+	{
+		if(isNaN(data.ver))
+		return;
+		if(parseInt(data.ver)!=ver)
+		{
+			if(confirm('有新的版片，您需要现在升级吗？'))
+			{
+				window.open(dowlurl);
+			}
+		}
+	}
+	);
+
+}
+
+
+function uploadProcessing(progressEvent){
+	
+	if (progressEvent.lengthComputable) {
+		//已经上传
+		var loaded=progressEvent.loaded;
+		//alert(loaded);
+		//文件总长度
+		var total=progressEvent.total;
+		//计算百分比，用于显示进度条
+		var percent=parseInt((loaded/total)*100);
+		//换算成MB
+		loaded=(loaded/1024/1024).toFixed(2);
+		total=(total/1024/1024).toFixed(2);	
+		$.mobile.loader.prototype.options.text = percent+'%';	
+		//initLoding(percent+'%');
+	}
+};
+
+function showTopInfo(i)
+{
+ sina.notification.notify({
+     "saeAppName": "",
+     "redirectUrl": "",
+     "tickerText": "瓯网拍客--有一条上传任务进行中，请不要关闭应用",
+     "contentTitle": "任务提醒",
+     "contentText": "有一条上传任务进行中，请不要关闭应用",
+     "id": i
+ });	
+}
+
+function checkConnection() {
+
+		canto=1;
+        var networkState = navigator.network.connection.type;
+		
+		switch(networkState)
+		{
+			case Connection.UNKNOWN:
+				canto=0;
+				break;
+			 
+			 case Connection.NONE:
+			 	canto=0;
+				break;
+				
+			case Connection.CELL_2G:
+				photoquality=10;
+				break;
+				
+			case Connection.CELL_3G:
+				photoquality=20;
+				break;
+				
+			case Connection.WIFI:
+				photoquality=50;
+				break;
+			
+		}
+		
+	jQuery('#slider1').val(photoquality);
+	jQuery('#slider1').attr('value',photoquality);
+	if(canto==0)
+	{
+		alert('检测不到任何网络连接');
+		navigator.app.exitApp();	
+	}
+	else
+	{
+		
+	}
+	
+		/*
+        var states = {};
+        states[Connection.UNKNOWN]  = 'Unknown connection';
+        states[Connection.ETHERNET] = 'Ethernet connection';
+        states[Connection.WIFI]     = 'WiFi connection';
+        states[Connection.CELL_2G]  = 'Cell 2G connection';
+        states[Connection.CELL_3G]  = 'Cell 3G connection';
+        states[Connection.CELL_4G]  = 'Cell 4G connection';
+        states[Connection.NONE]     = 'No network connection';
+
+        alert('Connection type: ' + states[networkState]);
+		*/
+}
+
+
+</script>
+</body>
+</html>
